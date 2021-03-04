@@ -6,7 +6,7 @@ import {Item} from "./components/Item";
 import {itemsSelector} from "./selector";
 import {PageNumber} from "./components/PageNumber";
 import {RowName} from "./components/RowName";
-
+import styled from "styled-components"
 let MSTP = (state) => ({
     filter: state.filter,
     data: itemsSelector({...state}),
@@ -16,8 +16,27 @@ let MSTP = (state) => ({
     sorting:state.sorting
 
 });
+let WrapperRow=styled.div`
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    
+`;
+let Row=styled.p`
+    display:inline;
+    cursor:pointer;
+    width:fit-content;
+     align-self:center
+`;
+let itemStyle=styled(Row)`
+    cursor:default
+`;
+let WrapperPage=styled(WrapperRow)`
+    width:20vw;
+    margin-left:30vw;
+    grid-gap:1.5vw;
+    grid-auto-flow:column;
+`;
 let AppHOC =React.memo((props) => {
-    console.log(props.sorting)
     let [method,setMethod]=useState(3)
     let ChangePage = (e) => {
         props.PageNumberAC(e)
@@ -36,7 +55,7 @@ let AppHOC =React.memo((props) => {
         return (props.pageNumber - 1) * 50 <= i && i < props.pageNumber * 50
     });
     let Items = partOfItems.map((e, i) => {
-        return <Item key={i} count={e.count} price={e.price} item={e.item}/>
+        return <Item WrapperRow={WrapperRow} itemStyle={itemStyle} key={i} count={e.count} price={e.price} item={e.item}/>
     });
     let Pages = (Item, arr = [], count = 1) => {
         arr.push(count);
@@ -47,13 +66,13 @@ let AppHOC =React.memo((props) => {
         return Pages(Item, arr, count)
     };
     let PageItems = Pages(props.data).map((e, i) => {
-        return <PageNumber key={i} ChangePage={ChangePage} num={e}/>
+        return <PageNumber Row={Row} key={i} ChangePage={ChangePage} num={e}/>
     });
     let RowNames = props.rows.map((e, i) => {
-        return <RowName name={e} method={method} setMethod={setMethod} ChangeSort={ChangeSort} key={i}/>
-    })
+        return <RowName Row={Row} sorting={props.sorting} name={e} method={method} setMethod={setMethod} ChangeSort={ChangeSort} key={i}/>
+    });
     return (
-        <App FilterAC={props.FilterAC} RowNames={RowNames} filter={props.filter} Items={Items} PageItems={PageItems}/>
+        <App WrapperPage={WrapperPage} WrapperRow={WrapperRow} FilterAC={props.FilterAC} RowNames={RowNames} filter={props.filter} Items={Items} PageItems={PageItems}/>
     )
 });
 export let AppContainer = connect(MSTP, {FilterAC, PageNumberAC, RowsAC})(AppHOC);

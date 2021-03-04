@@ -1,9 +1,9 @@
 import React from "react";
 
 export let Item =(props) => (
-    <div>
-        <p>{props.item}</p>
-        <p>{props.price} rub</p>
-        <p>{props.count}</p>
-    </div>
+    <props.WrapperRow>
+        <props.itemStyle>{props.item}</props.itemStyle>
+        <props.itemStyle>{props.price} rub</props.itemStyle>
+        <props.itemStyle>{props.count}</props.itemStyle>
+    </props.WrapperRow>
 )

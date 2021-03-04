@@ -5,9 +5,9 @@ export let App = (props) => {
     return (
         <div>
             <FindStroke FilterAC={props.FilterAC}/>
-            {props.RowNames}
+            <props.WrapperRow>{props.RowNames}</props.WrapperRow>
             {props.Items}
-            {props.PageItems}
+            <props.WrapperPage><p>Страницы:</p>{props.PageItems}</props.WrapperPage>
         </div>
 
     )

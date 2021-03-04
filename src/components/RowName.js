@@ -5,6 +5,6 @@ export let RowName = (props) => {
         props.ChangeSort(props.name, props.method, props.setMethod)
     }
     return (
-        <p onClick={handler}>{props.name}</p>
+        <props.Row onClick={handler}>{props.name}{props.sorting.name===props.name?props.sorting.method==="Возрастание"?"↑":"↓":""}</props.Row>
     )
 }
