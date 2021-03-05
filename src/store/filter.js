@@ -469,16 +469,10 @@ let data = {
 export let filterReducer = (state = data, action) => {
     switch (action.type) {
         case "filter": {
-            let copyState={...state};
-            copyState.filter=action.filter;
-            copyState.pageNumber=1;
-            return {...copyState};
+            return {...state,filter: action.filter,pageNumber: 1};
         }
         case "rows":{
-            let copyState=JSON.parse(JSON.stringify(state));
-            copyState.sorting.name=action.name;
-            copyState.sorting.method=action.method
-            return {...copyState}
+            return {...state,sorting: {...state.sorting,name:action.name,method: action.method}}
         }
         case "pageNumber":{
             return {...state,pageNumber: action.number}
